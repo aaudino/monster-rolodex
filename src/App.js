@@ -7,7 +7,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: "Anthony",
+      name: { firstname: "Anthony", lastname: "Audino" },
+      company: "WU",
     };
   }
   render() {
@@ -15,11 +16,18 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>Hi there, {this.state.name} </p>
+          <p>
+            Hi there, {this.state.name.firstname} {this.state.name.lastname} -
+            student of {this.state.company}{" "}
+          </p>
           {/* betreffend Eventhandler:wir benötigen hier die setState methode, da diese React darüber informiert, dass das State Object zu einer neuen Speicherreferenz zeigt - das animiert react dazu, den DOM neu zu rendern würden wir einfach bei der Onclick Methode this.state.name ändern, dann löst das kein rerendern des DOMS aus, weil wir ja die Speicherreferenz nicht anrühren*/}
           <button
             onClick={() => {
-              this.setState({ name: "Antonio" });
+              this.setState({
+                name: { firstname: "Antonio", lastname: "Audino" },
+              });
+              // Dieser Console.log wird noch die properties des "alten" state anzeigen. Warum ? weil this.setState aus perfromance gründen async ist.
+              console.log(this.state);
             }}
           >
             {" "}
