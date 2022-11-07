@@ -23,11 +23,18 @@ class App extends Component {
           {/* betreffend Eventhandler:wir benötigen hier die setState methode, da diese React darüber informiert, dass das State Object zu einer neuen Speicherreferenz zeigt - das animiert react dazu, den DOM neu zu rendern würden wir einfach bei der Onclick Methode this.state.name ändern, dann löst das kein rerendern des DOMS aus, weil wir ja die Speicherreferenz nicht anrühren*/}
           <button
             onClick={() => {
-              this.setState({
-                name: { firstname: "Antonio", lastname: "Audino" },
-              });
-              // Dieser Console.log wird noch die properties des "alten" state anzeigen. Warum ? weil this.setState aus perfromance gründen async ist.
-              console.log(this.state);
+              this.setState(
+                //Um die die kombination aus Setstate und bspw console.log() synchron verlaufen zu lassen, werden die änderungen an dem State Object in eine seperate callback function gesteckt, welche das state object und die props als optionale arguments verwenden kann
+                // Das Console.log wird in eine weitere Callback function gesteckt die NUR dann ausgeführt wird, wenn die setState callback function beendet wurde
+                (state, props) => {
+                  return {
+                    name: { firstname: "Antonio", lastname: "Audino" },
+                  };
+                },
+                () => {
+                  console.log(this.state);
+                }
+              );
             }}
           >
             {" "}
