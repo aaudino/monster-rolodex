@@ -2,6 +2,8 @@ import { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+import CardList from "./components/card-list/card-list.component";
+
 // Grundsätzlich ist das einfach nur eine alternative  Schreibweise. Man kann react als eine Collection von Classes oder als als eine Collection von Functions gestalten
 class App extends Component {
   constructor() {
@@ -73,6 +75,8 @@ class App extends Component {
             </div>
           );
         })}
+        {/* Mit dieser Notation importieren wir die Komponente */}
+        <CardList />
       </div>
     );
   }
