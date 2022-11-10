@@ -8,6 +8,7 @@ class App extends Component {
     super();
     this.state = {
       monsters: [],
+      searchField: "",
     };
   }
   //Component did mount ist eine Lifecycle Method
@@ -35,7 +36,11 @@ class App extends Component {
       });
     }
   }
+  //Das Problem bei der Basic Version der Search war: Wir haben Monsters mit filteredmonsters gleichgesetzt. und damit war es nicht mehr möglich "den Ursprungszustand von monsters herzustellen. Wir haben const filteredMonsters aus dem vorherigen Scope in einen Höheren Scope geschoben, damit wir das dann Mappen können. und aus dem Searchfield eine Property gemacht, damit filteredMonsters darauf zugreifen kann
   render() {
+    const filteredMonsters = this.state.monsters.filter((monster) => {
+      return monster.name.toLowerCase().includes(this.state.searchField);
+    });
     return (
       <div className="App">
         <input
@@ -43,24 +48,16 @@ class App extends Component {
           type="search"
           placeholder="search monsters"
           onChange={(event) => {
-            // Der Searchterm muss in lower case umgewandelt werden
-            const searchTerm = event.target.value.toLowerCase();
-            //Filtern des Arrays in und schauen ob das Element den Substring enthält
-            //Wichtig ist dabei das returnen
-            console.log(searchTerm);
-            const filteredMonsters = this.state.monsters.filter((monster) => {
-              return monster.name.toLowerCase().includes(searchTerm);
-            });
-            console.log(filteredMonsters);
-            //Mit setState sorgen wir für das rerendering
+            const searchField = event.target.value.toLowerCase();
             this.setState(() => {
+              //Wenn wir eine Variable haben die gleich wie eine Property heißt, dann können wir diesen shortcut verwenden
               return {
-                monsters: filteredMonsters,
+                searchField,
               };
             });
           }}
         />
-        {this.state.monsters.map((monster) => {
+        {filteredMonsters.map((monster) => {
           return (
             // Die Id muss hinzugefügt werden beim mappen - damit react weiß welche Elemente bei einer Veränderung neu gerendert werden müssen.
             <div key={monster.id}>
@@ -79,6 +76,5 @@ export default App;
 //1. contructor und initalization of the state
 //2. Danach läuft Render() und kreiert mehr oder weniger ein Template
 //3 Das Template wird von Component did mount befüllt
-
-// Das ist auch ganz logisch weil die komponnente kann nämlich nur dann mounten wenn der dom generiert wird
+// Das ist auch ganz logisch weil die komponente kann nämlich nur dann mounten wenn der dom generiert wird
 // Component.mount veranlasst dann React wiederum dazu, den Dom wieder neu zu rendern
