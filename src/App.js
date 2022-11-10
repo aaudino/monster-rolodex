@@ -67,16 +67,12 @@ class App extends Component {
           placeholder="search monsters"
           onChange={onSearchChange}
         />
-        {filteredMonsters.map((monster) => {
-          return (
-            // Die Id muss hinzugefügt werden beim mappen - damit react weiß welche Elemente bei einer Veränderung neu gerendert werden müssen.
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
-        {/* Mit dieser Notation importieren wir die Komponente */}
-        <CardList />
+
+        {/* Mit dieser Notation importieren wir die Komponente 
+        Mit props können wir den Komponenten properties übergeben, die dort dann bearbeitet werden können 
+        Unsere Componente interessiert sich nur dafür WAS sie anzeigen soll und deswegen übergeben wir die FilteredMonsters und nicht alle Monsters
+        */}
+        <CardList monsters={filteredMonsters} anything={["z", "t", "m"]} />
       </div>
     );
   }
