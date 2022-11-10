@@ -20,10 +20,10 @@ class App extends Component {
       if (!response.ok) {
         throw Error("Unable to fetch");
       }
-      const data = await response.json();
+      const users = await response.json();
 
       this.setState(() => {
-        return { monsters: data };
+        return { monsters: users };
       });
     } catch (error) {
       this.setState(() => {
@@ -38,6 +38,28 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <input
+          className="search-box"
+          type="search"
+          placeholder="search monsters"
+          onChange={(event) => {
+            // Der Searchterm muss in lower case umgewandelt werden
+            const searchTerm = event.target.value.toLowerCase();
+            //Filtern des Arrays in und schauen ob das Element den Substring enthält
+            //Wichtig ist dabei das returnen
+            console.log(searchTerm);
+            const filteredMonsters = this.state.monsters.filter((monster) => {
+              return monster.name.toLowerCase().includes(searchTerm);
+            });
+            console.log(filteredMonsters);
+            //Mit setState sorgen wir für das rerendering
+            this.setState(() => {
+              return {
+                monsters: filteredMonsters,
+              };
+            });
+          }}
+        />
         {this.state.monsters.map((monster) => {
           return (
             // Die Id muss hinzugefügt werden beim mappen - damit react weiß welche Elemente bei einer Veränderung neu gerendert werden müssen.
@@ -54,7 +76,7 @@ class App extends Component {
 export default App;
 
 //Reihenfolge:
-//1. contructor und initalize the state
+//1. contructor und initalization of the state
 //2. Danach läuft Render() und kreiert mehr oder weniger ein Template
 //3 Das Template wird von Component did mount befüllt
 
