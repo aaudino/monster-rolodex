@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 
 import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 // Grundsätzlich ist das einfach nur eine alternative  Schreibweise. Man kann react als eine Collection von Classes oder als als eine Collection von Functions gestalten
 class App extends Component {
@@ -39,8 +40,6 @@ class App extends Component {
     }
   }
 
-  //Wir lagern die Onsearch funktion auf eine eigene Function aus -> wesentlich perfromanter als eine anonyme function wie unten
-  //Diese Methode ist an unsere Klasse gebunden
   onSearchChange = (event) => {
     const searchField = event.target.value.toLowerCase();
     this.setState(() => {
@@ -50,7 +49,7 @@ class App extends Component {
       };
     });
   };
-  //Das Problem bei der Basic Version der Search war: Wir haben Monsters mit filteredmonsters gleichgesetzt. und damit war es nicht mehr möglich "den Ursprungszustand von monsters herzustellen. Wir haben const filteredMonsters aus dem vorherigen Scope in einen Höheren Scope geschoben, damit wir das dann Mappen können. und aus dem Searchfield eine Property gemacht, damit filteredMonsters darauf zugreifen kann
+
   render() {
     // Destructuring damit wir das "this" streichen können
     const { monsters, searchField } = this.state;
@@ -61,18 +60,21 @@ class App extends Component {
     });
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="search monsters"
-          onChange={onSearchChange}
-        />
-
         {/* Mit dieser Notation importieren wir die Komponente 
         Mit props können wir den Komponenten properties übergeben, die dort dann bearbeitet werden können 
         Unsere Componente interessiert sich nur dafür WAS sie anzeigen soll und deswegen übergeben wir die FilteredMonsters und nicht alle Monsters
+
+        //Componenten rerendern wenn props sich verändern - das kann passieren, beispielsweise passieren, wenn wir in der einen state ändern, der als prop an eine componente übergeben wird
+
+        //Allgemein kann man sagen, das man ein rerender durch einen state change oder einen prop change "provozieren" kann 
         */}
-        <CardList monsters={filteredMonsters} anything={["z", "t", "m"]} />
+        {/* OnChangeHandler ist eine custom props die wir der Komponente übergeben */}
+        <SearchBox
+          onChangeHandler={onSearchChange}
+          placeholder={"search monsters"}
+          className={"search-box"}
+        />
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
