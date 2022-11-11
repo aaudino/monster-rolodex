@@ -1,17 +1,26 @@
 //Alternative bennenungen für diese files X.component.jsx | index.js |X.jsx
 
 import { Component } from "react";
+import "./card-list.styles.css";
 
 class CardList extends Component {
   render() {
-    //Mit der props property, die an unsere Componente angeknüpft ist, sehen wir alle properties die übergeben werden
-    console.log(this.props);
-    //Destructuring damit wir uns das this.props.monsters sparen
     const { monsters } = this.props;
     return (
-      <div>
+      <div className="card-list">
         {monsters.map((monster) => {
-          return <h1 key={monster.id}>{monster.name}</h1>;
+          const { name, email, id } = monster;
+
+          return (
+            <div key={id} className="card-container">
+              <img
+                alt={`monster ${name}`}
+                src={`https://robohash.org/${id}?set=set2&size180x180`}
+              />
+              <h2>{monster.name}</h2>
+              <p>{monster.email}</p>
+            </div>
+          );
         })}
       </div>
     );
