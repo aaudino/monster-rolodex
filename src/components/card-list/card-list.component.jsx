@@ -1,6 +1,5 @@
 //Alternative bennenungen für diese files X.component.jsx | index.js |X.jsx
 
-//
 import { Component } from "react";
 
 class CardList extends Component {
@@ -11,8 +10,6 @@ class CardList extends Component {
     const { monsters } = this.props;
     return (
       <div>
-        {" "}
-        hello there: {this.props.anything}
         {monsters.map((monster) => {
           return <h1 key={monster.id}>{monster.name}</h1>;
         })}
