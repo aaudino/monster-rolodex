@@ -69,6 +69,7 @@ class App extends Component {
         //Allgemein kann man sagen, das man ein rerender durch einen state change oder einen prop change "provozieren" kann 
         */}
         {/* OnChangeHandler ist eine custom props die wir der Komponente übergeben */}
+        <h1 className="app-title"> Monsters Rolodex</h1>
         <SearchBox
           onChangeHandler={onSearchChange}
           placeholder={"search monsters"}
